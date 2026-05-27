@@ -1,0 +1,16 @@
+Day,Weather,Feels Like,Wind,Humidity,Chance of Precipitation,Precipitation Amount,High Temp,Low Temp
+2026-05-27,Isolated tstorms. Overcast.,82.0,7.0,54.0,0.51,0.15,83.0,65.0
+2026-05-28,Broken clouds.,77.0,11.0,39.0,0.14,0.01,75.0,63.0
+2026-05-29,Cloudy.,77.0,9.0,33.0,0.23,0.01,76.0,58.0
+2026-05-30,Afternoon clouds.,77.0,16.0,37.0,0.23,0.01,72.0,55.0
+2026-05-31,Broken clouds.,76.0,6.0,26.0,0.0,0.0,76.0,55.0
+2026-06-01,Cloudy.,77.0,10.0,36.0,0.0,0.0,76.0,59.0
+2026-06-02,Scattered clouds.,77.0,9.0,41.0,0.03,0.0,74.0,57.0
+2026-06-03,Afternoon clouds.,77.0,6.0,27.0,0.02,0.0,77.0,60.0
+2026-06-04,Cloudy.,79.0,13.0,32.0,0.05,0.0,79.0,63.0
+2026-06-05,Isolated tstorms late. Overcast.,79.0,7.0,46.0,0.44,0.03,78.0,64.0
+2026-06-06,Isolated tstorms late. Cloudy.,78.0,7.0,61.0,0.57,0.09,76.0,64.0
+2026-06-07,Showers late. Increasing cloudiness.,78.0,11.0,49.0,0.53,0.08,76.0,65.0
+2026-06-08,Passing showers. Scattered clouds.,78.0,12.0,37.0,0.46,0.01,76.0,65.0
+2026-06-09,Afternoon clouds.,78.0,10.0,30.0,0.52,0.02,79.0,62.0
+2026-06-10,Decreasing cloudiness.,78.0,12.0,27.0,0.65,0.19,79.0,66.0
