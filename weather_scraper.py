@@ -34,8 +34,8 @@ def save_files(df):
         csv_path = os.path.join(script_dir, "csv", "new_york_weather_forecast.csv")
         df.to_csv(csv_path, index=False)
         print("Weather forecast data saved to CSV file.")
-    except sqlite3.Error as e:
-        print(f"An error occurred while connecting to the database: {e}")
+    except Exception as e:
+        print(f"Error while saving data to CSV: {e}")
 
     # save to SQLite database
     try:
@@ -45,7 +45,7 @@ def save_files(df):
         conn.close()
         print("Weather forecast data saved to SQLite database.")
     except sqlite3.Error as e:
-        print(f"An error occurred while connecting to the database: {e}")
+        print(f"Error while saving data to SQLite database: {e}")
 
 
 # ---------------------------------------------------------------------------- #
@@ -79,7 +79,7 @@ def get_weather_forecast():
 
         # raw data
         df = pd.DataFrame(forecast_data)
-        print("Raw data:")
+        print("Raw Data:")
         print(df)
 
         # start cleaning data
@@ -127,11 +127,9 @@ def get_weather_forecast():
         for col in number_columns:
             df[col] = df[col].astype(float)
 
-        # data cleaning done
-        print("Cleaned data:")
+        # data cleaning done > save to CSV and SQLite database
+        print("Cleaned Data:")
         print(df)
-
-        # save to CSV and SQLite database
         save_files(df)
 
 
@@ -142,7 +140,7 @@ def main():
         # sleep(4)
 
     except Exception as e:
-        print("Error when retrieving web page.")
+        print("Error while retrieving web page.")
         print(f"Exception: {type(e).__name__} {e}.")
 
     finally:
