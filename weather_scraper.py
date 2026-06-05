@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import sqlite3
 import warnings
 from time import sleep
 from datetime import datetime
@@ -22,6 +23,29 @@ driver = webdriver.Chrome(
 )
 
 BASE_URL = "https://www.timeanddate.com/weather/usa/new-york/"
+
+
+# ---------------------------------------------------------------------------- #
+def save_files(df):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # save to CSV
+    try:
+        csv_path = os.path.join(script_dir, "csv", "new_york_weather_forecast.csv")
+        df.to_csv(csv_path, index=False)
+        print("Weather forecast data saved to CSV file.")
+    except sqlite3.Error as e:
+        print(f"An error occurred while connecting to the database: {e}")
+
+    # save to SQLite database
+    try:
+        sql_path = os.path.join(script_dir, "db", "new_york_weather_forecast.db")
+        conn = sqlite3.connect(sql_path)
+        df.to_sql(name="weather_forecast", con=conn, if_exists="replace", index=False)
+        conn.close()
+        print("Weather forecast data saved to SQLite database.")
+    except sqlite3.Error as e:
+        print(f"An error occurred while connecting to the database: {e}")
 
 
 # ---------------------------------------------------------------------------- #
@@ -107,11 +131,8 @@ def get_weather_forecast():
         print("Cleaned data:")
         print(df)
 
-        # save to CSV
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        csv_path = os.path.join(script_dir, "csv", "new_york_weather_forecast.csv")
-        df.to_csv(csv_path, index=False)
-        print("Weather forecast data saved to CSV file.")
+        # save to CSV and SQLite database
+        save_files(df)
 
 
 # ---------------------------------------------------------------------------- #
