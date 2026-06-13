@@ -14,21 +14,12 @@ from selenium.webdriver.support import expected_conditions as EC
 # hide warnings for pandas v2
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-# driver settings
-options = webdriver.ChromeOptions()
-options.add_argument("--disable-gpu")
-options.add_argument("--window-size=1920x1080")
-driver = webdriver.Chrome(
-    service=ChromeService(ChromeDriverManager().install()), options=options
-)
-
 BASE_URL = "https://www.timeanddate.com/weather/usa/new-york/"
+DRIVER = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
 
 # ---------------------------------------------------------------------------- #
 def save_files(df, name):
-    # script_dir = os.path.dirname(os.path.abspath(__file__))
-
     # save to CSV
     try:
         csv_path = os.path.join("../csv", f"{name}.csv")
@@ -50,11 +41,11 @@ def save_files(df, name):
 
 # ---------------------------------------------------------------------------- #
 def get_weather_forecast():
-    driver.get(BASE_URL + "ext")
+    DRIVER.get(BASE_URL + "ext")
     print("\nScraping weather forecast data...")
 
     # find table with data
-    weather_table = WebDriverWait(driver, 10).until(
+    weather_table = WebDriverWait(DRIVER, 10).until(
         EC.presence_of_element_located((By.ID, "wt-ext"))
     )
     if weather_table:
@@ -135,11 +126,11 @@ def get_weather_forecast():
 
 # ---------------------------------------------------------------------------- #
 def get_climate_data():
-    driver.get(BASE_URL + "climate")
+    DRIVER.get(BASE_URL + "climate")
     print("\nScraping climate data...")
 
     # find table with data
-    climate_table = WebDriverWait(driver, 10).until(
+    climate_table = WebDriverWait(DRIVER, 10).until(
         EC.presence_of_element_located((By.ID, "climateTable"))
     )
     if climate_table:
@@ -209,7 +200,7 @@ def main():
         print(f"Error retrieving web page: {e}.")
 
     finally:
-        driver.quit()
+        DRIVER.quit()
 
 
 if __name__ == "__main__":
