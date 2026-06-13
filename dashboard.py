@@ -7,8 +7,8 @@ import plotly.graph_objects as go
 st.set_page_config(
     page_title="New York Weather Dashboard", page_icon="🌤️", layout="wide"
 )
-forecast_df = pd.read_csv("../csv/new_york_weather_forecast.csv")
-climate_df = pd.read_csv("../csv/new_york_climate.csv")
+forecast_df = pd.read_csv("./csv/new_york_weather_forecast.csv")
+climate_df = pd.read_csv("./csv/new_york_climate.csv")
 
 # ---------------------------------------------------------------------------- #
 # sidebar

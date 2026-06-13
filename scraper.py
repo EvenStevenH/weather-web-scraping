@@ -14,15 +14,22 @@ from selenium.webdriver.support import expected_conditions as EC
 # hide warnings for pandas v2
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
+options = webdriver.ChromeOptions()
+options.add_argument("--disable-gpu")
+options.add_argument("--window-size=1920x1080")
+DRIVER = webdriver.Chrome(
+    service=ChromeService(ChromeDriverManager().install()), options=options
+)
 BASE_URL = "https://www.timeanddate.com/weather/usa/new-york/"
-DRIVER = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
 
 
 # ---------------------------------------------------------------------------- #
 def save_files(df, name):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
     # save to CSV
     try:
-        csv_path = os.path.join("../csv", f"{name}.csv")
+        csv_path = os.path.join(script_dir, "csv", f"{name}.csv")
         df.to_csv(csv_path, index=False)
         print("Data saved to CSV file.")
     except Exception as e:
@@ -30,7 +37,7 @@ def save_files(df, name):
 
     # save to SQLite database
     try:
-        sql_path = os.path.join("../db", f"{name}.db")
+        sql_path = os.path.join(script_dir, "db", f"{name}.db")
         conn = sqlite3.connect(sql_path)
         df.to_sql(name="weather_forecast", con=conn, if_exists="replace", index=False)
         conn.close()
