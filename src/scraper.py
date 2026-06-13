@@ -27,25 +27,25 @@ BASE_URL = "https://www.timeanddate.com/weather/usa/new-york/"
 
 # ---------------------------------------------------------------------------- #
 def save_files(df, name):
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # save to CSV
     try:
-        csv_path = os.path.join(script_dir, "csv", f"{name}.csv")
+        csv_path = os.path.join("../csv", f"{name}.csv")
         df.to_csv(csv_path, index=False)
         print("Data saved to CSV file.")
     except Exception as e:
-        print(f"Error while saving data to CSV: {e}")
+        print(f"Error saving data to CSV: {e}")
 
     # save to SQLite database
     try:
-        sql_path = os.path.join(script_dir, "db", f"{name}.db")
+        sql_path = os.path.join("../db", f"{name}.db")
         conn = sqlite3.connect(sql_path)
         df.to_sql(name="weather_forecast", con=conn, if_exists="replace", index=False)
         conn.close()
         print("Data saved to SQLite database.")
     except sqlite3.Error as e:
-        print(f"Error while saving data to SQLite database: {e}")
+        print(f"Error saving data to SQLite database: {e}")
 
 
 # ---------------------------------------------------------------------------- #
@@ -53,7 +53,7 @@ def get_weather_forecast():
     driver.get(BASE_URL + "ext")
     print("\nScraping weather forecast data...")
 
-    # find table with data > wait as long as needed
+    # find table with data
     weather_table = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "wt-ext"))
     )
@@ -127,26 +127,27 @@ def get_weather_forecast():
         for col in number_columns:
             df[col] = df[col].astype(float)
 
-        # data cleaning done > save to CSV and SQLite database
+        # data cleaned > save to CSV and SQLite database
         print("Cleaned Data:")
         print(df)
         save_files(df, "new_york_weather_forecast")
 
 
 # ---------------------------------------------------------------------------- #
-
-
 def get_climate_data():
     driver.get(BASE_URL + "climate")
     print("\nScraping climate data...")
 
-    # find table with data > wait as long as needed
+    # find table with data
     climate_table = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "climateTable"))
     )
     if climate_table:
         climate_data = []
         for month in climate_table.find_elements(By.CSS_SELECTOR, ".climate-month"):
+            if "allyear" in month.get_attribute("class"):
+                continue
+
             title = (
                 month.find_element(By.TAG_NAME, "h3")
                 .get_attribute("textContent")
@@ -190,7 +191,7 @@ def get_climate_data():
         for column, units in columns.items():
             df[column] = clean_numeric(df[column], units)
 
-        # data cleaning done > save to CSV and SQLite database
+        # data cleaned > save to CSV and SQLite database
         print("\nCleaned Data:")
         print(df)
         save_files(df, "new_york_climate")
@@ -205,8 +206,7 @@ def main():
         get_climate_data()
 
     except Exception as e:
-        print("Error while retrieving web page.")
-        print(f"Exception: {type(e).__name__} {e}.")
+        print(f"Error retrieving web page: {e}.")
 
     finally:
         driver.quit()
