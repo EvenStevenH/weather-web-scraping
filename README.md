@@ -9,7 +9,7 @@ A project that retrieves data from the [Weather Around The World](https://www.ti
 - Install dependencies:
 
     ```Bash
-    pip install -r requirements.txt`
+    pip install -r requirements.txt
     ```
 
 - If you'd like to update the data used, move to directory and run:
