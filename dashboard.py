@@ -10,7 +10,6 @@ st.set_page_config(
 forecast_df = pd.read_csv("./csv/new_york_weather_forecast.csv")
 climate_df = pd.read_csv("./csv/new_york_climate.csv")
 
-# ---------------------------------------------------------------------------- #
 # sidebar
 st.sidebar.title("Controls")
 app_mode = st.sidebar.radio(
